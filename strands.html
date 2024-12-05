@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanksgiving Strands Game</title>
+    <link rel="stylesheet" href="strands.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <span class="navbar-logo">🦃</span>
+                <a href="#" class="navbar-title">Gratitude Times</a>
+            </div>
+            <div class="navbar-links" id="navbar-links">
+                <a href="wordle.html" class="nav-link">Wordle</a>
+                <a href="index.html" class="nav-link">Connections</a>
+                <a href="#" class="nav-link active">Strands</a>
+                <a href="info.html" class="nav-link">Info</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Game Container -->
+    <div id="game-container">
+        <h1>Thanksgiving Strands 🦃</h1>
+        <!-- Game Info -->
+        <div id="game-info">
+            <div id="score-display">Score: 0</div>
+            <div id="hint-message">Find all the words!</div>
+        </div>
+        <!-- Grid Container with Canvas Overlay -->
+        <div id="grid-wrapper">
+            <div id="grid-container">
+                <!-- The letter grid will be dynamically generated here -->
+            </div>
+            <canvas id="selection-canvas"></canvas>
+        </div>
+        <div id="found-words-container">
+            <h2>Found Words:</h2>
+            <ul id="found-words"></ul>
+        </div>
+    </div>
+
+    <!-- Modal for Game Completion -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Congratulations!</h2>
+            <p id="modal-message">You've reached 200 points!</p>
+            <button id="play-again-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="strands.js"></script>
+</body>
+</html>
+

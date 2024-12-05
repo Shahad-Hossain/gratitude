@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thanksgiving Wordle</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="wordle.css">
+</head>
+<body>
+    <!-- Responsive Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <span class="navbar-logo">🦃</span>
+                <a href="#" class="navbar-title">Gratitude Times</a>
+            </div>
+            <div class="navbar-links" id="navbar-links">
+                <a href="#" class="nav-link active">Wordle</a>
+                <a href="index.html" class="nav-link">Connections</a>
+                <a href="strands.html" class="nav-link">Strands</a>
+                <a href="info.html" class="nav-link">Info</a>
+            </div>
+        </nav>
+    </header>
+
+    <h1 id="title">Thanksgiving Wordle 🦃</h1>
+    <hr>
+    <div id="message"></div>
+    <div id="board"></div>
+    <div id="keyboard-container"></div>
+
+    <!-- Modal for Game Over -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal">&times;</span>
+            <div id="modal-message"></div>
+            <button id="play-again-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="wordle.js"></script>
+</body>
+</html>
+

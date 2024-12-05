@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connections Game</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <!-- Turkey emoji logo -->
+                <span class="navbar-logo">🦃</span>
+                <a href="#" class="navbar-title">Gratitude Times</a>
+            </div>
+            <button class="navbar-toggler" id="navbar-toggler">
+                <!-- Hamburger icon -->
+                <span class="toggler-icon"></span>
+                <span class="toggler-icon"></span>
+                <span class="toggler-icon"></span>
+            </button>
+            <div class="navbar-links" id="navbar-links">
+                <a href="wordle.html" class="nav-link">Wordle</a>
+                <a href="#" class="nav-link">Connections</a>
+                <a href="strands.html" class="nav-link">Strands</a>
+                <a href="info.html" class="nav-link">Info</a>
+            </div>
+        </nav>
+    </header>
+
+    <h1>Connections Game</h1>
+    <p>Select four words that share a common theme.</p>
+    <!-- Added container for found groups -->
+    <div id="found-groups"></div>
+    <div id="game-container">
+        <div id="game-board"></div>
+        <!-- Mistakes Remaining -->
+        <div id="mistakes-container">
+            <span>Mistakes Remaining:</span>
+            <div id="mistakes-remaining"></div>
+        </div>
+        <!-- Buttons -->
+        <div id="buttons">
+            <button id="shuffle-btn">Shuffle</button>
+            <button id="deselect-btn">Deselect All</button>
+            <button id="submit-btn" disabled>Submit</button>
+        </div>
+        <div id="message"></div>
+    </div>
+
+    <!-- Win/Lose Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal">&times;</span>
+            <div id="modal-message"></div>
+            <button id="play-again-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
