@@ -13,7 +13,7 @@ const mainWords = [
     "FAMILY",      //6
     "HEALTH",      //6
     "MARSH",       //5
-    "NIK0",        //4 (Assuming typo and length corrected)
+    "NIK0",        //4 (Corrected typo)
     "MORALES",     //7
     "HARVEST",     //7
     "FEAST",       //5
@@ -79,7 +79,7 @@ function initializeGame() {
     for (let i = 0; i < gridSize; i++) {
         grid[i] = [];
         for (let j = 0; j < gridSize; j++) {
-            grid[i][j] = '';
+            grid[i][j] = { letter: '', words: [] }; // Initialize with empty letters and empty words array
         }
     }
 
@@ -119,8 +119,9 @@ function placeAllWords() {
                 let tempCol = startPos.col;
                 for (let i = 0; i < word.length; i++) {
                     const letter = word[i];
-                    if (grid[tempRow][tempCol] === '') {
-                        grid[tempRow][tempCol] = { letter, word };
+                    if (!grid[tempRow][tempCol].words.includes(word)) {
+                        grid[tempRow][tempCol].letter = letter;
+                        grid[tempRow][tempCol].words.push(word);
                     }
                     [tempRow, tempCol] = getNextCell(tempRow, tempCol, direction);
                 }
@@ -160,7 +161,7 @@ function canPlaceWordAt(row, col, wordLength, direction, word) {
         }
 
         const cell = grid[tempRow][tempCol];
-        if (cell !== '') {
+        if (cell.letter !== '') {
             // Allow overlapping only if the letters match
             if (cell.letter !== word[i]) {
                 return false;
@@ -184,7 +185,7 @@ function canPlaceWord(word, row, col, direction) {
         }
 
         const cell = grid[tempRow][tempCol];
-        if (cell !== '') {
+        if (cell.letter !== '') {
             // Allow overlapping only if the letters match
             if (cell.letter !== word[i]) {
                 return false;
@@ -213,10 +214,11 @@ function fillEmptyCells() {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
-            if (grid[i][j] === '') {
+            if (grid[i][j].letter === '') {
                 // Choose a random letter from the alphabet
                 const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
-                grid[i][j] = { letter: randomLetter, word: null };
+                grid[i][j].letter = randomLetter;
+                // words array remains empty
             }
         }
     }
@@ -323,23 +325,37 @@ function isAdjacent(cell1, cell2) {
 function checkSelectedWord() {
     const word = selectedCells.map(cell => cell.textContent).join('');
     const reversedWord = word.split('').reverse().join('');
-    if (foundWords.includes(word) || foundWords.includes(reversedWord)) {
-        showHintMessage('Word already found.');
-        return;
+    let matchedWord = null;
+
+    // Check for both normal and reversed words
+    if (mainWords.includes(word)) {
+        matchedWord = word;
+    } else if (mainWords.includes(reversedWord)) {
+        matchedWord = reversedWord;
     }
 
-    if (mainWords.includes(word)) {
-        foundWords.push(word);
-        addWordToList(word);
-        highlightWord(selectedCells, wordColorMap[word]);
-        updateScore(word);
-        checkGameCompletion();
-    } else if (mainWords.includes(reversedWord)) {
-        foundWords.push(reversedWord);
-        addWordToList(reversedWord);
-        highlightWord(selectedCells, wordColorMap[reversedWord]);
-        updateScore(reversedWord);
-        checkGameCompletion();
+    if (matchedWord) {
+        if (foundWords.includes(matchedWord)) {
+            showHintMessage('Word already found.');
+            return;
+        }
+
+        // Verify that all selected cells contain the matched word
+        const isValid = selectedCells.every(cell => {
+            const row = parseInt(cell.getAttribute('data-row'));
+            const col = parseInt(cell.getAttribute('data-col'));
+            return grid[row][col].words.includes(matchedWord);
+        });
+
+        if (isValid) {
+            foundWords.push(matchedWord);
+            addWordToList(matchedWord);
+            highlightWord(selectedCells, wordColorMap[matchedWord]);
+            updateScore(matchedWord);
+            checkGameCompletion();
+        } else {
+            showHintMessage('Invalid word selection.');
+        }
     } else {
         showHintMessage('Invalid word.');
     }
@@ -356,10 +372,7 @@ function highlightWord(cells, colorClass) {
     cells.forEach(cell => {
         cell.classList.add('highlighted', colorClass);
         cell.classList.remove('selected');
-        // Remove event listeners to prevent re-selection
-        cell.removeEventListener('mousedown', startSelection);
-        cell.removeEventListener('mouseenter', continueSelection);
-        cell.removeEventListener('mouseup', endSelection);
+        // Do NOT remove event listeners to allow overlapping words to be found
     });
 }
 
@@ -389,7 +402,7 @@ function updateScore(word) {
 
 function getWordPoints(word) {
     // Points based on word length
-    return word.length * 5;
+    return 30;
 }
 
 function clearCanvas() {
