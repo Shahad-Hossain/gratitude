@@ -19,6 +19,13 @@ var gratitudeWords = [
     "emmon",
     "study",
     "greed",
+    "algoe",
+    "nikos",
+    "giver",
+    "money",
+    "waste",
+    "nancy",
+    "glued"
 ];
 
 // Randomly select a word from the gratitudeWords array
